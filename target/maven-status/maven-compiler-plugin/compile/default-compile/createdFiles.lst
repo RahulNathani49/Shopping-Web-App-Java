@@ -1,0 +1,7 @@
+com\Shoppingapp\service\UserService.class
+com\Shoppingapp\controllers\login.class
+com\Shoppingapp\controllers\signup.class
+com\Shoppingapp\models\User.class
+com\Shoppingapp\exceptions\Userexception.class
+com\Shoppingapp\controllers\LoadMainServlet.class
+com\Shoppingapp\repositories\UserRepository.class
