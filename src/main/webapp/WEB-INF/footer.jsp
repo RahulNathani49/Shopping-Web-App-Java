@@ -22,12 +22,7 @@
                 </div>
                 <div class="underlinefoot"></div>
                 <div class="left-foot-link">
-                    <p>Created with love by Elastic Themes</p>
-                </div>
-                <div class="right-foot-link">
-                    <p>Powered by <u>Webflow</u>
-                        <u>Style Guide</u>
-                        <u>Licensing</u></p>
+                    <p>shoppinger created by Rahul,Omkar</p>
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@
 package com.Shoppingapp.repositories;
 
 import com.Shoppingapp.exceptions.Userexception;
+import com.Shoppingapp.models.Category;
 import com.Shoppingapp.models.Product;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -53,5 +54,25 @@ public class ProductRepository {
         double price = resultSet.getDouble("price");
         String productdescription  = resultSet.getString("productdescription");
         return new Product(productid, categoryid, productname, image, price, productdescription);
+    }
+
+    public ArrayList<Category> fetchCategoryData() throws ClassNotFoundException, SQLException, Userexception {
+       Class.forName("org.mariadb.jdbc.Driver");    
+       try(Connection connection = DriverManager.getConnection(connectionUrl, username, password)){
+            String query = "select categoryid,categoryname from productcategory";
+            PreparedStatement statement =  connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<Category> categoryList = new ArrayList<>();
+            while (resultSet.next()) {
+                categoryList.add(readNextCategory(resultSet));
+            }
+            return categoryList;   
+        }
+    }
+
+    private Category readNextCategory(ResultSet resultSet) throws SQLException,Userexception {
+       int categoryid = resultSet.getInt("categoryid");
+        String categoryname  = resultSet.getString("categoryname"); 
+        return new Category(categoryid, categoryname);
     }
 }

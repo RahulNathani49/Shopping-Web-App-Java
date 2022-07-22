@@ -11,9 +11,9 @@
         <div class="logo"><h1>Shoppingger</h1></div>
             <div class="navigation-links">
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="/ShoppingWebApp">Home</a></li>
                     <li><a href="#">About</a></li>  
-                    <li><a href="fetchproducts">Products</a></li>
+                    <li><a href="products">Products</a></li>
                 </ul>
             </div>
             <%        

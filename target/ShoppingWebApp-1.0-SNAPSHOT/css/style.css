@@ -22,6 +22,7 @@ html,body{
 }
 header{
     position: fixed;
+    top: 0;
     width: 100%;
     z-index: 5;
     background: white;
@@ -184,4 +185,69 @@ footer{
     font-family: "Open Sans", sans-serif;
     font-weight: 400;
     padding: 25px 0 0 0 ;
+}
+.category-container{
+    width: 80%;
+    margin:auto;
+    padding: 20px;     
+}
+.category-container a{
+    padding: 20px 30px;
+    background: #1ea9fe;
+    box-shadow: 5px 2px 9px 0px grey;
+    border-radius: 5px;
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+    margin-right: 20px;
+    transition: .4s all;
+}
+.category-container a:hover{
+    background-color: #a5c926;
+    transition: .4s all;
+    box-shadow: none;
+}
+.product-container{
+    width: 80%;
+    margin: auto;
+    padding: 20px;  
+    display: flex;
+    justify-content:space-around;
+}
+.productmain{
+    padding: 100px 0;
+}
+.product{
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 0 30px -12px #c9c9c9;
+}
+.product img{
+    width: 100%;
+}
+.product h2,p{
+    padding: 5px;
+}
+.price{
+    padding: 10px;
+    width: 90px;
+    text-align: center;
+    background-color:#1ea9fe; 
+    color: white;
+    margin: 10px 0;
+}
+.cartbutton {
+     padding: 10px;
+    width: 200px;
+    text-align: center;
+    background-color:#1ea9fe; 
+    color: white;
+    margin: 10px 0;
+    box-shadow: 1px 1px 6px 0px grey;
+    transition: .4s all;
+}
+.cartbutton:hover{
+    background-color: #a5c926;
+    transition: .4s all;
+    box-shadow: none;
 }
