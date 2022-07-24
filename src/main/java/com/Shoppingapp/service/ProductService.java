@@ -34,7 +34,7 @@ public class ProductService {
         return null;
     }
 
-    public ArrayList<Category> fetchCategories() throws ClassNotFoundException {
+    public ArrayList<Category> fetchCategories() throws ClassNotFoundException, Userexception {
           try {
             return repository.fetchCategoryData();
         } catch (SQLException ex) {

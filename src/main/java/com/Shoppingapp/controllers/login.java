@@ -74,7 +74,7 @@ public class login extends HttpServlet {
             
             User user = service.checkLoginAuth(username,password);
             
-            request.setAttribute("loggeduser", user);
+            session.setAttribute("loggeduser", user);
             request.getRequestDispatcher("WEB-INF/index.jsp").forward(request, response);
 
         }catch(Userexception ex){

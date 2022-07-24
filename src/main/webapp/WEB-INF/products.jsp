@@ -4,6 +4,7 @@
     Author     : isi
 --%>
 
+<%@page import="com.Shoppingapp.models.User"%>
 <%@page import="com.Shoppingapp.models.Category"%>
 <%@page import="com.Shoppingapp.models.Product"%>
 <%@page import="java.util.ArrayList"%>
@@ -19,6 +20,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     </head>
     <body>
+     <%
+     String message = (String)request.getAttribute("message");
+     if (message==null || message=="") {
+             message="";
+         }
+     %>
         <jsp:include page="header.jsp" />
         <%
            
@@ -42,20 +49,19 @@
         %>  
         </div>
         <div class="product-container">
-             <%
+        <%
             if (productList !=null) {
-
             for (Product product : productList) {
-            %>
-            <div class="product">
-       
+        %>
+        <div class="product">
             <img src="./images/<%= product.getProductImagePath() %>" alt="productimg"/>
             <h2><%= product.getProductName() %></h2>
-            <p><%= product.getProductDescription() %></p>
+            <p><%= product.getProductDescription()%></p>
             <p class="price">$ <%= product.getProductPrice()%></p>
-            <a href="" class="cartbutton">Add to cart</a>
-        </div>
-              <%
+            <a href="products?productid=<%=product.getProductId()%>" class="cartbuttonn">Add to cart</a>
+            <small style="padding: 20px;"><%= message %></small>
+        </div> 
+        <%
             }
             }   
         %>

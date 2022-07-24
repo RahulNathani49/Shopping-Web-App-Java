@@ -1,9 +1,12 @@
    <%@page import="com.Shoppingapp.models.User"%>
 <%
-       User user = (User)request.getAttribute("loggeduser");
+       User user = (User)session.getAttribute("loggeduser");
        String message = (String)request.getAttribute("message");
        if (message==null) {
              message="";
+        }
+        if (user!=null) {
+            session.setAttribute("loggeduser", user);
         }
    %>
 <header>

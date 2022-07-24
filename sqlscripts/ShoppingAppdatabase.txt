@@ -1,0 +1,57 @@
+CREATE DATABASE shoppingapp;
+use shoppingapp;
+CREATE TABLE shoppingapp.users (
+	username varchar(100) NOT NULL,
+	salt VARBINARY(100) NOT NULL,
+	hashedpassword VARBINARY(100) NOT NULL,
+	name varchar(100) NOT NULL,
+	dateofbirth DATETIME NOT NULL,
+	CONSTRAINT users_pk PRIMARY KEY (username)
+)
+CREATE TABLE shoppingapp.productcategory (
+	categoryid int NOT NULL,
+	categoryname varchar(100) NOT NULL,
+	CONSTRAINT productcategory_pk PRIMARY KEY (categoryid)
+)
+use shoppingapp;
+ALTER TABLE productcategory
+change categoryid  categoryid int  AUTO_INCREMENT;
+ALTER TABLE productcategory  AUTO_INCREMENT = 1001;
+
+CREATE TABLE shoppingapp.products (
+	productid int NOT NULL,
+	categoryid int NOT NULL,
+	productname varchar(100) NOT NULL,
+	[image] varchar(100) NOT NULL,
+	price double NOT NULL,
+	productdescription varchar(100) NOT NULL,
+	CONSTRAINT products_pk PRIMARY KEY (productid),
+	CONSTRAINT products_fk FOREIGN KEY (categoryid) REFERENCES productcategory(categoryid)
+)
+
+insert into productcategory(categoryname) values('men');
+insert into productcategory(categoryname) values('women');
+
+
+insert into products(categoryid,productname,image,price,productdescription) 
+values(1001,"Denim Jacket","jacket.jpg",22.50,"Denim Jacket with choices avaialble in colours.In sale offer ends soon");
+insert into products(categoryid,productname,image,price,productdescription) 
+values(1002,"Funky Tshirt","tshirt.jpg",10.99,"Funky Tshirts for party wears and formal look");
+
+
+CREATE TABLE shoppingapp.UserCartMap (
+	cartid varchar(100) NOT NULL,
+	productid INT auto_increment NOT NULL,
+	quantity INT NOT NULL,
+	total double NOT NULL,
+)
+CREATE TABLE shoppingapp.allcarts (
+	username varchar(100) NOT NULL,
+	cartid INT auto_increment NOT null,
+	primary key (username,cartid)
+)
+use shoppingapp;
+ALTER TABLE UserCartMap
+change cartid  cartid int  AUTO_INCREMENT;
+ALTER TABLE UserCartMap  AUTO_INCREMENT = 5001;
+

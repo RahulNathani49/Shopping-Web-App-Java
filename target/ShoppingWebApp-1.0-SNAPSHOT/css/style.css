@@ -189,7 +189,9 @@ footer{
 .category-container{
     width: 80%;
     margin:auto;
-    padding: 20px;     
+    padding: 20px; 
+display: flex;
+justify-content: center;
 }
 .category-container a{
     padding: 20px 30px;
@@ -236,17 +238,20 @@ footer{
     color: white;
     margin: 10px 0;
 }
-.cartbutton {
+.cartbuttonn {
      padding: 10px;
     width: 200px;
     text-align: center;
+    display: inherit;
     background-color:#1ea9fe; 
     color: white;
-    margin: 10px 0;
+    text-decoration: none;
+    margin: 20px 0;
     box-shadow: 1px 1px 6px 0px grey;
     transition: .4s all;
+    
 }
-.cartbutton:hover{
+.cartbuttonn:hover{
     background-color: #a5c926;
     transition: .4s all;
     box-shadow: none;

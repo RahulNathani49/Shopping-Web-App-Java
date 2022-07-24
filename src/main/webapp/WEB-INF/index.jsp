@@ -17,11 +17,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     </head>   
 <body>
+
     <div class="landingpage">
         <jsp:include page="header.jsp" />
     </div>
    
         <jsp:include page="footer.jsp" />
+
+    
 </body>
 </html>
 

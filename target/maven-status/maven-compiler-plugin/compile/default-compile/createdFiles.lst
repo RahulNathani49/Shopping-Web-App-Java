@@ -1,7 +1,16 @@
+com\Shoppingapp\repositories\CartRepository.class
+com\Shoppingapp\repositories\ProductRepository.class
+com\Shoppingapp\service\ProductService.class
 com\Shoppingapp\exceptions\Userexception.class
+com\Shoppingapp\controllers\cartController.class
+com\Shoppingapp\models\Category.class
 com\Shoppingapp\controllers\LoadMainServlet.class
+com\Shoppingapp\controllers\fetchproducts.class
+com\Shoppingapp\service\CartService.class
 com\Shoppingapp\service\UserService.class
 com\Shoppingapp\controllers\login.class
 com\Shoppingapp\controllers\signup.class
 com\Shoppingapp\models\User.class
+com\Shoppingapp\models\Product.class
+com\Shoppingapp\models\UserCartMap.class
 com\Shoppingapp\repositories\UserRepository.class

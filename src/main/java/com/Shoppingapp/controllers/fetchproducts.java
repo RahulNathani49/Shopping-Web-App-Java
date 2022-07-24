@@ -7,6 +7,8 @@ package com.Shoppingapp.controllers;
 import com.Shoppingapp.exceptions.Userexception;
 import com.Shoppingapp.models.Category;
 import com.Shoppingapp.models.Product;
+import com.Shoppingapp.models.User;
+import com.Shoppingapp.service.CartService;
 import com.Shoppingapp.service.ProductService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.ValidationException;
 
 /**
@@ -40,14 +43,14 @@ public class fetchproducts extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException, Userexception {
         ProductService service = new ProductService();
+        String productid=request.getParameter("productid");
         String category = request.getParameter("categoryid");
         ArrayList<Product> productList = service.fetchProducts();
         ArrayList<Category> categoryList = service.fetchCategories();
-      
-        if (productList!=null) {
+        
+        if (productList!=null ) {
             if (category==null || "all".equals(category) || category.isEmpty()) {
                 request.setAttribute("productList", productList);
-
             }else{
                   ArrayList<Product> sortedProductList = new ArrayList<>();
                 for (Product product : productList) {
@@ -56,12 +59,34 @@ public class fetchproducts extends HttpServlet {
                     }
                 }
                 request.setAttribute("productList", sortedProductList);
+
             }
         }
         if (categoryList!=null) {
             request.setAttribute("categoryList", categoryList);
         }
+        if (productid!=null) {
+            HttpSession session = request.getSession(true);
+            CartService cartservice = new CartService();    
+            User user = (User)session.getAttribute("loggeduser");
+       
+             boolean status;
+             status = cartservice.addtoCart(user.getUsername(),productid);
+             productid=null;
+        
+        if (status == true) {
+            String message = "Item was added to cart successfully";
+            request.setAttribute("message", message);
+        }
+        else{
+            String message = "Item is already in cart";
+            request.setAttribute("message", message);
+        }
+        
+        }
         request.getRequestDispatcher("WEB-INF/products.jsp").forward(request, response);
+
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
