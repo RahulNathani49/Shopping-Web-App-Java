@@ -4,11 +4,14 @@
  */
 package com.Shoppingapp.controllers;
 
+import com.Shoppingapp.exceptions.Userexception;
 import com.Shoppingapp.models.User;
+import com.Shoppingapp.models.UserCartItems;
 import com.Shoppingapp.service.CartService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -23,7 +26,7 @@ import sun.security.pkcs11.wrapper.Functions;
  *
  * @author isi
  */
-@WebServlet(name = "cartController", urlPatterns = {"/cartController"})
+@WebServlet(name = "cartController", urlPatterns = {"/cart"})
 public class cartController extends HttpServlet {
 
     /**
@@ -38,20 +41,32 @@ public class cartController extends HttpServlet {
      * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
-        HttpSession session = request.getSession(true);
-        CartService cartservice = new CartService();    
-        String productid=request.getParameter("productid");
-        User user = (User)session.getAttribute("loggeduser");
-        if (productid!=null || !"".equals(productid)) {
-             boolean status;
-             status = cartservice.addtoCart(user.getUsername(),productid);
-        
-        if (status == true) {
-            String message = "Added to Cart Successfully";
-            request.setAttribute("message", message);
+            throws ServletException, IOException, ClassNotFoundException, SQLException, Userexception {
+        CartService service = new CartService();
+        HttpSession session= request.getSession(true);
+        User user = (User) session.getAttribute("loggeduser");
+
+        String action = request.getParameter("action");
+        String quantity = request.getParameter("quantity");
+        String productid = request.getParameter("productid");
+        String cartid=request.getParameter("cartid");
+
+        if (quantity!=null && cartid!=null) {
+        int cart = Integer.parseInt(cartid);
+     
+        if ("+".equals(action)) {
+            service.addQuantity(cart,productid,quantity);
         }
-        } 
+        if ("-".equals(action)) {
+            service.removeQuantity(cart,productid,quantity);
+        }
+        }
+          if (user!=null) {
+            ArrayList<UserCartItems> cartitems = service.fetchCartItems(user.getUsername());
+            request.setAttribute("usercartitems", cartitems);
+        }
+        request.getRequestDispatcher("WEB-INF/cart.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,7 +83,7 @@ public class cartController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | Userexception ex) {
             Logger.getLogger(cartController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -86,7 +101,7 @@ public class cartController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | Userexception ex) {
             Logger.getLogger(cartController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

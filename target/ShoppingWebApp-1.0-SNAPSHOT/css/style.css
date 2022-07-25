@@ -256,3 +256,45 @@ justify-content: center;
     transition: .4s all;
     box-shadow: none;
 }
+.cartcontainer{
+    padding:30px 20px;
+    width: 80%;
+    margin:100px auto;
+    background-color: #f7f3f3;
+}
+.underline{
+    height: 3px ;
+    margin: 20px 0;
+    width: 300px;
+    background-color: #a5c926;
+}
+.cartitem{
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+}
+.cartitem h3{
+    margin: 10px 0;
+}
+.productimg img{
+    width: 100px;
+    height: 100px;
+}
+.description{
+    padding: 0 20px;
+}
+
+.quantityadjust{
+    display: flex;
+    align-items: center;
+}
+.quantityadjust input{
+    font-size: 15px;
+}
+.quantityadjust input[type="number"]{
+    background: white;
+}
+.quantityadjust input[type="submit"]:hover{
+    background: #1ea9fe;
+    transition:.3s all;
+}

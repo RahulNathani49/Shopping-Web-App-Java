@@ -26,7 +26,9 @@
 
               <%= "<h3 style='padding:0 20px;'> Welcome "+user.getName()+"</h3>" %>
               
-                 <a href="#" class="cartbutton"><i class="fa-solid fa-cart-shopping"></i>Cart</a>
+              <a href="cart" class="cartbutton" style="margin-right: 10px"><i class="fa-solid fa-cart-shopping"></i>Cart</a>
+              <a href="logout" class="cartbutton">Log out</a>
+
             </div>
               <%
                 }     

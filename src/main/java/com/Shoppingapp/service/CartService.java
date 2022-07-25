@@ -4,8 +4,13 @@
  */
 package com.Shoppingapp.service;
 
+import com.Shoppingapp.exceptions.Userexception;
+import com.Shoppingapp.models.UserCartItems;
 import com.Shoppingapp.repositories.CartRepository;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,6 +44,26 @@ public class CartService {
             }
         }
         return false;
+    }   
+
+    public ArrayList<UserCartItems> fetchCartItems(String username) throws ClassNotFoundException, SQLException, Userexception {
+        if (repository.cartExists(username)) {
+            int cartId = repository.getCartId(username);
+            ArrayList<UserCartItems> usercartitems = repository.fetchCartItems(username);
+            return usercartitems;
+        }
+        return null;
     }
-    
+
+    public void addQuantity(int cartid, String productid, String quantity) throws ClassNotFoundException, SQLException, Userexception{
+        if (repository.productExistInCart(cartid, productid)) {
+            repository.addQuantity(cartid, productid, quantity);
+        }
+    }
+
+    public void removeQuantity(int cartid, String productid, String quantity) throws ClassNotFoundException, SQLException {
+       if (repository.productExistInCart(cartid, productid)) {
+            repository.removeQuantity(cartid, productid, quantity);
+        }
+    }
 }

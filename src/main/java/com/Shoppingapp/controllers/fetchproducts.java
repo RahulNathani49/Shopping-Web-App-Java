@@ -43,6 +43,7 @@ public class fetchproducts extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException, Userexception {
         ProductService service = new ProductService();
+        String usermessage = "";
         String productid=request.getParameter("productid");
         String category = request.getParameter("categoryid");
         ArrayList<Product> productList = service.fetchProducts();
@@ -62,27 +63,33 @@ public class fetchproducts extends HttpServlet {
 
             }
         }
+        
         if (categoryList!=null) {
             request.setAttribute("categoryList", categoryList);
         }
+        
         if (productid!=null) {
             HttpSession session = request.getSession(true);
             CartService cartservice = new CartService();    
             User user = (User)session.getAttribute("loggeduser");
-       
-             boolean status;
-             status = cartservice.addtoCart(user.getUsername(),productid);
-             productid=null;
-        
-        if (status == true) {
-            String message = "Item was added to cart successfully";
-            request.setAttribute("message", message);
-        }
-        else{
-            String message = "Item is already in cart";
-            request.setAttribute("message", message);
-        }
-        
+            if (user!=null) {
+                boolean status;
+                status = cartservice.addtoCart(user.getUsername(),productid);    
+                if (status == true) {
+                    String message = "Item was added to cart successfully";
+                    request.setAttribute("message", message);
+                    request.setAttribute("productid", productid);
+                }
+                else{
+                    String message = "Item already exists in cart !";
+                    request.setAttribute("message", message);
+                    request.setAttribute("productid", productid);
+                }
+            }else{
+                usermessage = "Please Login or Sign up to buy";
+                request.setAttribute("usermessage", usermessage);
+            }
+           
         }
         request.getRequestDispatcher("WEB-INF/products.jsp").forward(request, response);
 

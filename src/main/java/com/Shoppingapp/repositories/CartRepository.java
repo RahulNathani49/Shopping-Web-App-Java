@@ -4,7 +4,9 @@
  */
 package com.Shoppingapp.repositories;
 
+import com.Shoppingapp.exceptions.Userexception;
 import com.Shoppingapp.models.Product;
+import com.Shoppingapp.models.UserCartItems;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -99,4 +101,75 @@ public class CartRepository {
         }
         return 0;
     }
+
+    public ArrayList<UserCartItems> fetchCartItems(String username) throws ClassNotFoundException, SQLException, Userexception {
+        Class.forName("org.mariadb.jdbc.Driver");    
+       try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+            String query = "select * from allcarts where cartid = (select cartid from usercartmap where username = ?)";
+            PreparedStatement statement =  connection.prepareStatement(query);
+            statement.setString(1,username);
+            ArrayList<UserCartItems> cartItems = new ArrayList<>();
+            ResultSet resultSet  = statement.executeQuery();
+            while (resultSet.next()) {  
+                cartItems.add(readNextItem(resultSet));
+           }
+            return cartItems;
+        }
+     
+    }
+    private UserCartItems readNextItem(ResultSet resultSet) throws SQLException, Userexception, ClassNotFoundException{
+       Class.forName("org.mariadb.jdbc.Driver");    
+       try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+        int cartid = resultSet.getInt("cartid");
+        int productid = resultSet.getInt("productid");
+        int quantity = resultSet.getInt("quantity");
+        double total= resultSet.getDouble("total");
+            String query = "select productname,image from products where productid = ?";
+            PreparedStatement statement =  connection.prepareStatement(query);
+            statement.setInt(1,productid);
+            ResultSet newresultSet  = statement.executeQuery();
+            if (newresultSet.next()) {
+                String productName = newresultSet.getString("productname");
+                String productImage = newresultSet.getString("image");
+                return new UserCartItems(productid,cartid,productName , quantity, total,productImage);
+
+           }
+        }
+        return null;  
+    }
+
+    public boolean addQuantity(int cartid, String productid, String quantity) throws ClassNotFoundException, SQLException,Userexception {
+        Class.forName("org.mariadb.jdbc.Driver");    
+       try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+            String query = "UPDATE allcarts " +
+                " SET quantity = ? " +
+                " WHERE cartid = ? AND productid=?";
+            PreparedStatement statement =  connection.prepareStatement(query);
+            statement.setInt(1,Integer.parseInt(quantity)+1);
+            statement.setInt(2,cartid);
+            statement.setString(3,productid);
+
+            int rowsaffected  = statement.executeUpdate();
+              return rowsaffected>0;
+        }
+       
+    }
+
+    public boolean removeQuantity(int cartid, String productid, String quantity) throws ClassNotFoundException, SQLException {
+           Class.forName("org.mariadb.jdbc.Driver");    
+       try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+            String query = "UPDATE allcarts " +
+                " SET quantity = ? " +
+                " WHERE cartid = ? AND productid=?";
+            PreparedStatement statement =  connection.prepareStatement(query);
+            statement.setInt(1,Integer.parseInt(quantity)-1);
+            statement.setInt(2,cartid);
+            statement.setString(3,productid);
+
+            int rowsaffected  = statement.executeUpdate();
+              return rowsaffected>0;
+        }
+    }
+
+    
 }

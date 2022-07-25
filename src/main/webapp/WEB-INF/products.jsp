@@ -25,6 +25,12 @@
      if (message==null || message=="") {
              message="";
          }
+     String usermessage = (String)request.getAttribute("usermessage");
+     if (usermessage==null || usermessage=="") {
+             usermessage="";
+         }
+      String productid = (String)request.getAttribute("productid");
+
      %>
         <jsp:include page="header.jsp" />
         <%
@@ -59,11 +65,24 @@
             <p><%= product.getProductDescription()%></p>
             <p class="price">$ <%= product.getProductPrice()%></p>
             <a href="products?productid=<%=product.getProductId()%>" class="cartbuttonn">Add to cart</a>
-            <small style="padding: 20px;"><%= message %></small>
+            <%
+               if (productid!=null) {
+                       
+                       if (Integer.parseInt(productid) == product.getProductId()) {
+                           %>
+                             <small style="padding: 20px;color:red;" ><%= message %></small>
+                           <%
+                        }
+                   }
+            %>
+            
+          
+            <small style="padding: 20px;" style="color: red;"><%= usermessage %></small>
         </div> 
         <%
             }
-            }   
+            }  
+            
         %>
         </div>
         

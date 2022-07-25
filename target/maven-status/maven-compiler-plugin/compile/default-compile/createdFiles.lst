@@ -1,5 +1,6 @@
 com\Shoppingapp\repositories\CartRepository.class
 com\Shoppingapp\repositories\ProductRepository.class
+com\Shoppingapp\controllers\logout.class
 com\Shoppingapp\service\ProductService.class
 com\Shoppingapp\exceptions\Userexception.class
 com\Shoppingapp\controllers\cartController.class
