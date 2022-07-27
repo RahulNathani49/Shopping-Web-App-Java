@@ -4,6 +4,7 @@
     Author     : isi
 --%>
 
+<%@page import="com.Shoppingapp.models.User"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.Shoppingapp.models.OrderHistory"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,6 +19,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    </head>
     <body>
         <%
+            User user = (User)session.getAttribute("loggeduser");
+            session.setAttribute("loggeduser", user);
             ArrayList<OrderHistory> historylist = (ArrayList<OrderHistory> )request.getAttribute("orderhistorylist");
         %>
         <jsp:include page="header.jsp" />
@@ -38,7 +41,7 @@
                     <p>Order number #<%= history.getOrderid() %></p>
                     <p>Total items purchased <%= history.getOrdercount() %></p>
                     <p>Amount paid $<%= history.getTotal() %></p>
-                    <p>Date <%= history.getDate() %></p>
+                    <p>Order made on <%= history.getDate() %></p>
                 </div>
             
             <%

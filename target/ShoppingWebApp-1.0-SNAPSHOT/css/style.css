@@ -329,4 +329,5 @@ justify-content: center;
 .orders{
     padding: 20px;
     box-shadow: 1px 1px 13px grey; 
+    margin-top: 20px;
 }
