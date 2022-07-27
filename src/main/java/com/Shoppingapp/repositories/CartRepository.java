@@ -5,6 +5,7 @@
 package com.Shoppingapp.repositories;
 
 import com.Shoppingapp.exceptions.Userexception;
+import com.Shoppingapp.models.OrderHistory;
 import com.Shoppingapp.models.Product;
 import com.Shoppingapp.models.UserCartItems;
 import java.sql.Connection;
@@ -243,6 +244,29 @@ public class CartRepository {
 //            statement3.setString(2,username);
 //                statement3.execute();
         return false;     
+    }
+
+    public ArrayList<OrderHistory> getOrderHistory(String username) throws SQLException {
+        try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+            String query = "select count(*),cartid,sum(total),orderdate  from orderhistory where username = ? group by cartid";
+            PreparedStatement statement =  connection.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<OrderHistory> history = new ArrayList<>();
+            while (resultSet.next()) {
+                history.add(addNextHistory(resultSet));
+                
+            }
+            return history;
+        }
+    }
+
+    private OrderHistory addNextHistory(ResultSet resultSet) throws SQLException {
+        int ordercount = resultSet.getInt("count(*)");
+        int cartid = resultSet.getInt("cartid");
+        double total = resultSet.getDouble("sum(total)");
+        Date date = resultSet.getDate("orderdate");
+        return new OrderHistory(ordercount, cartid, total, (java.sql.Date)date);
     }
    
 

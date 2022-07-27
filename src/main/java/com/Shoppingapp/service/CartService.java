@@ -5,6 +5,7 @@
 package com.Shoppingapp.service;
 
 import com.Shoppingapp.exceptions.Userexception;
+import com.Shoppingapp.models.OrderHistory;
 import com.Shoppingapp.models.UserCartItems;
 import com.Shoppingapp.repositories.CartRepository;
 import java.sql.SQLException;
@@ -65,5 +66,9 @@ public class CartService {
 
     public boolean checkOutOrder(String username) throws SQLException {
         return repository.checkOutCart(username);
+    }
+
+    public ArrayList<OrderHistory> getOrderHistory(String username) throws SQLException {
+        return  repository.getOrderHistory(username);
     }
 }

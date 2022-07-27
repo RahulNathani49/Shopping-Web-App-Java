@@ -4,10 +4,12 @@
  */
 package com.Shoppingapp.controllers;
 
+import com.Shoppingapp.models.OrderHistory;
 import com.Shoppingapp.models.User;
 import com.Shoppingapp.service.CartService;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,6 +43,8 @@ public class checkout extends HttpServlet {
             User user = (User)session.getAttribute("loggeduser");
             if (user!=null) {
                 service.checkOutOrder(user.getUsername());
+                ArrayList<OrderHistory> history = service.getOrderHistory(user.getUsername());
+                request.setAttribute("orderhistorylist", history);
                 request.getRequestDispatcher("WEB-INF/orders.jsp").forward(request, response);
             }
         }

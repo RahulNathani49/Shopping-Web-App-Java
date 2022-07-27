@@ -321,3 +321,12 @@ justify-content: center;
 .checkout{
     margin-top: 20px;
 }
+.ordercontainer{
+    width: 80%;
+    margin : 100px auto;
+    padding:20px;
+}
+.orders{
+    padding: 20px;
+    box-shadow: 1px 1px 13px grey; 
+}
