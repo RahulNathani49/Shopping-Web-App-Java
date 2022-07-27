@@ -15,7 +15,7 @@
             <div class="navigation-links">
                 <ul>
                     <li><a href="/ShoppingWebApp">Home</a></li>
-                    <li><a href="#">About</a></li>  
+                    <li><a href="#">Orders</a></li>  
                     <li><a href="products">Products</a></li>
                 </ul>
             </div>

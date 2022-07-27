@@ -50,6 +50,16 @@ CREATE TABLE shoppingapp.allcarts (
 	cartid INT auto_increment NOT null,
 	primary key (username,cartid)
 )
+CREATE TABLE shoppingapp.orderhistory (
+	username varchar(100) NOT NULL,
+	cartid INT NOT NULL,
+	productid INT NOT NULL,
+	quantity INT NOT NULL,
+	total DOUBLE NOT NULL
+)
+ALTER TABLE shoppingapp.orderhistory ADD Column1 DATETIME NOT NULL;
+ALTER TABLE shoppingapp.orderhistory CHANGE Column1 orderdate datetime NOT NULL;
+
 use shoppingapp;
 ALTER TABLE UserCartMap
 change cartid  cartid int  AUTO_INCREMENT;

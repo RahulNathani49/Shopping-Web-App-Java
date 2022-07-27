@@ -12,7 +12,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -151,14 +153,13 @@ public class CartRepository {
             int rowsaffected  = statement.executeUpdate();
         }
        try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
-          String query2 = "update allcarts " +
-" set total = (select price from products where productid = ? )*(select quantity from allcarts where productid = ?) " +
-" where cartid  = (select cartid from usercartmap where username = ?) and productid = ?";
+          String query2 = "update allcarts set total = (select price from products where productid = ? )*(select quantity from allcarts where productid = ? and cartid = (select cartid from usercartmap where username = ?)) where cartid  = (select cartid from usercartmap where username = ?) and productid = ?";
            PreparedStatement statement2 =  connection.prepareStatement(query2);
            statement2.setString(1,productid);
            statement2.setString(2,productid);
            statement2.setString(3,username);
-           statement2.setString(4,productid);
+           statement2.setString(4,username);
+           statement2.setString(5,productid);
 
             statement2.executeUpdate();
        }
@@ -180,20 +181,70 @@ public class CartRepository {
             int rowsaffected  = statement.executeUpdate();
        }
          try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
-          String query2 = "update allcarts " +
-" set total = (select price from products where productid = ? )*(select quantity from allcarts where productid = ?) " +
-" where cartid  = (select cartid from usercartmap where username = ?) and productid = ?";
+          String query2 = "update allcarts set total = (select price from products where productid = ? )*(select quantity from allcarts where productid = ? and cartid = (select cartid from usercartmap where username = ?)) where cartid  = (select cartid from usercartmap where username = ?) and productid = ?";
            PreparedStatement statement2 =  connection.prepareStatement(query2);
            statement2.setString(1,productid);
            statement2.setString(2,productid);
            statement2.setString(3,username);
-           statement2.setString(4,productid);
+           statement2.setString(4,username);
+           statement2.setString(5,productid);
 
             statement2.executeUpdate();
        }
            return false;
         
     }
+
+    public boolean checkOutCart(String username) throws SQLException {
+        
+//        UPDATE ORDER HISTORY 
+         try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+            String query = "select cartid,productid,quantity,total from allcarts where cartid = (select cartid from usercartmap where username = ?)";
+            PreparedStatement statement =  connection.prepareStatement(query);
+            statement.setString(1,username);
+            
+            ResultSet resultSet = statement.executeQuery();
+             while (resultSet.next()) {
+                 int cartid = resultSet.getInt("cartid");
+                 int productid = resultSet.getInt("productid");
+                 int quantity = resultSet.getInt("quantity");
+                 double total = resultSet.getDouble("total");
+                 String query2 = "insert into orderhistory values(?,?,?,?,?,?)";
+                PreparedStatement statement2 =  connection.prepareStatement(query2);
+                statement2.setString(1,username);
+                statement2.setInt(2,cartid);
+                statement2.setInt(3,productid);
+                statement2.setInt(4,quantity);
+                statement2.setDouble(5, total);
+                statement2.setDate(6,java.sql.Date.valueOf(LocalDate.now()));
+                statement2.executeUpdate();
+             }
+             
+        }
+//       DELETE DATA FROM CART 
+          try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+            String query2 = "delete from allcarts where cartid = (select cartid from usercartmap where username = ?)";
+            PreparedStatement statement2 =  connection.prepareStatement(query2);
+            statement2.setString(1,username);
+            statement2.execute();
+//       DELETE user cart map       
+        }
+           try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+            String query3 = "delete from usercartmap where username = ?";
+            PreparedStatement statement3 =  connection.prepareStatement(query3);
+            statement3.setString(1,username);
+            statement3.execute();           
+        }
+          
+            
+//         String query3 = "delete from allcarts where cartid = (select cartid from usercartmap where username = ?);delete from usercartmap where username = ?";
+//                PreparedStatement statement3 =  connection.prepareStatement(query3);
+//            statement3.setString(1,username);
+//            statement3.setString(2,username);
+//                statement3.execute();
+        return false;     
+    }
+   
 
     
 }

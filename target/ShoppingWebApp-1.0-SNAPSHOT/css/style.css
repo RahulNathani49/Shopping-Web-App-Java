@@ -306,3 +306,18 @@ justify-content: center;
     background: #1ea9fe;
     transition:.3s all;
 }
+.checkout a{
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    background: #1ea9fe;
+    transition: .4s all;
+ 
+}
+.checkout a:hover{
+    background: #a5c926;
+    transition: .4s all;
+}
+.checkout{
+    margin-top: 20px;
+}

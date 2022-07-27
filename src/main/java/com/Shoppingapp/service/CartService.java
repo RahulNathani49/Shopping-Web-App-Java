@@ -62,4 +62,8 @@ public class CartService {
     public void removeQuantity(String username, String productid, String quantity) throws ClassNotFoundException, SQLException {
         repository.removeQuantity(username, productid, quantity);
     }
+
+    public boolean checkOutOrder(String username) throws SQLException {
+        return repository.checkOutCart(username);
+    }
 }
