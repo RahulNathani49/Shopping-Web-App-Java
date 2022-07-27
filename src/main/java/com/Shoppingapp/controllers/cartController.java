@@ -52,9 +52,16 @@ public class cartController extends HttpServlet {
         String cartid=request.getParameter("cartid");
         if (user!=null) {
             if ("add".equals(action)) {
+               
+                
             service.addQuantity(user.getUsername(),productid,quantity);
         }
         if ("remove".equals(action)) {
+            if (quantity!=null) {
+                if (Integer.parseInt(quantity)<=1 ) {
+                       service.removeProduct(user.getUsername(),productid);
+                    } 
+            }
             service.removeQuantity(user.getUsername(),productid,quantity);
         } 
         }

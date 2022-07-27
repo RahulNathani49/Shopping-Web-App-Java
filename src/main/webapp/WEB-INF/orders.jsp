@@ -40,12 +40,13 @@
                     <p>Amount paid $<%= history.getTotal() %></p>
                     <p>Date <%= history.getDate() %></p>
                 </div>
-            </div>
+            
             <%
                 }
               }
             %>
-        <jsp:include page="footer.jsp" />
+        </div>
+                <jsp:include page="footer.jsp" />
 
     </body>
 </html>

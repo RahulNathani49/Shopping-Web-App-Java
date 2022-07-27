@@ -39,12 +39,16 @@ public class checkout extends HttpServlet {
             throws ServletException, IOException, SQLException {
         CartService service = new CartService();
         HttpSession session = request.getSession();
+        String vieworder = request.getParameter("vieworder");
         if (session!=null) {
             User user = (User)session.getAttribute("loggeduser");
             if (user!=null) {
                 service.checkOutOrder(user.getUsername());
-                ArrayList<OrderHistory> history = service.getOrderHistory(user.getUsername());
+                if ("true".equals(vieworder) && vieworder!=null) {
+                    ArrayList<OrderHistory> history = service.getOrderHistory(user.getUsername());
                 request.setAttribute("orderhistorylist", history);
+                }
+                
                 request.getRequestDispatcher("WEB-INF/orders.jsp").forward(request, response);
             }
         }

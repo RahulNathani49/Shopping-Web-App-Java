@@ -20,7 +20,7 @@
                         
                         
                     %>
-                    <li><a href="checkout">Orders</a></li>  
+                    <li><a href="checkout?vieworder=true">Orders</a></li>  
                     <%
                     }
                     %>

@@ -268,6 +268,18 @@ public class CartRepository {
         Date date = resultSet.getDate("orderdate");
         return new OrderHistory(ordercount, cartid, total, (java.sql.Date)date);
     }
+
+    public void removeProduct(String username, String productid) throws ClassNotFoundException, SQLException {
+        Class.forName("org.mariadb.jdbc.Driver");    
+       try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+            String query = "delete from allcarts where cartid = (select cartid from usercartmap where username = ?) and productid = ?";
+            PreparedStatement statement =  connection.prepareStatement(query);
+            
+            statement.setString(1,username);
+            statement.setString(2,productid);
+            int rowsaffected  = statement.executeUpdate();
+        }
+    }
    
 
     

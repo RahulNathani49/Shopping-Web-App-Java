@@ -55,9 +55,17 @@
                         }
                   }
                   %>
+                  <%
+                  if (usercartitems!=null) {
+                          
+                      
+                  %>
                   <div class="checkout">
                      <a href="checkout">Checkout</a>
                 </div>
+                  <%
+                      }
+                  %>
         </div>
         
         <jsp:include page="footer.jsp" />

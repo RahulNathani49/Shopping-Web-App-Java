@@ -71,4 +71,8 @@ public class CartService {
     public ArrayList<OrderHistory> getOrderHistory(String username) throws SQLException {
         return  repository.getOrderHistory(username);
     }
+
+    public void removeProduct(String username, String productid) throws ClassNotFoundException, SQLException {
+        repository.removeProduct(username,productid);
+    }
 }
