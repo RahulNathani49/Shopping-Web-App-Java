@@ -39,12 +39,13 @@
                         <img src="./images/<%= items.getImage() %>" alt="image"/>
                     </div>
                 <div class="description">
-                    <form action="cart?productid=<%= items.getProductId() %>&cartid=<%= items.getCartid()  %>" method="get">
+                    <form action="cart" method="get">
                         <h3><%= items.getProductName()%></h3>
                         <div class ="quantityadjust">
-                            <input  type="submit" value="-" name="action">
-                            <input type="number" name="quantity" value="<%= items.getQuantity()%>" disabled="">
-                            <input type="submit" value="+" name="action">
+                            <input type="hidden" value="<%= items.getProductId()%>" name="productid">
+                            <button  value="remove" name="action" type="submit">-</button>
+                            <input type="number" name="quantity" value="<%= items.getQuantity()%>" >
+                            <button value="add" type="submit" name="action">+</button>
                         </div>
                         <h3>$<%= items.getTotal() %></h3>
                     </form>

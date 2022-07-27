@@ -138,37 +138,61 @@ public class CartRepository {
         return null;  
     }
 
-    public boolean addQuantity(int cartid, String productid, String quantity) throws ClassNotFoundException, SQLException,Userexception {
+    public boolean addQuantity(String username, String productid, String quantity) throws ClassNotFoundException, SQLException,Userexception {
         Class.forName("org.mariadb.jdbc.Driver");    
        try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
             String query = "UPDATE allcarts " +
                 " SET quantity = ? " +
-                " WHERE cartid = ? AND productid=?";
+                " WHERE cartid = (select cartid from usercartmap where username = ?) AND productid=?";
             PreparedStatement statement =  connection.prepareStatement(query);
             statement.setInt(1,Integer.parseInt(quantity)+1);
-            statement.setInt(2,cartid);
+            statement.setString(2,username);
             statement.setString(3,productid);
-
             int rowsaffected  = statement.executeUpdate();
-              return rowsaffected>0;
         }
+       try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+          String query2 = "update allcarts " +
+" set total = (select price from products where productid = ? )*(select quantity from allcarts where productid = ?) " +
+" where cartid  = (select cartid from usercartmap where username = ?) and productid = ?";
+           PreparedStatement statement2 =  connection.prepareStatement(query2);
+           statement2.setString(1,productid);
+           statement2.setString(2,productid);
+           statement2.setString(3,username);
+           statement2.setString(4,productid);
+
+            statement2.executeUpdate();
+       }
+        return false;
        
     }
 
-    public boolean removeQuantity(int cartid, String productid, String quantity) throws ClassNotFoundException, SQLException {
+    public boolean removeQuantity(String username, String productid, String quantity) throws ClassNotFoundException, SQLException {
            Class.forName("org.mariadb.jdbc.Driver");    
        try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
             String query = "UPDATE allcarts " +
                 " SET quantity = ? " +
-                " WHERE cartid = ? AND productid=?";
+                " WHERE cartid = (select cartid from usercartmap where username = ?) AND productid=?; ";
+                
             PreparedStatement statement =  connection.prepareStatement(query);
             statement.setInt(1,Integer.parseInt(quantity)-1);
-            statement.setInt(2,cartid);
+            statement.setString(2,username);
             statement.setString(3,productid);
-
             int rowsaffected  = statement.executeUpdate();
-              return rowsaffected>0;
-        }
+       }
+         try(Connection connection = DriverManager.getConnection(connectionUrl, this.username, password)){
+          String query2 = "update allcarts " +
+" set total = (select price from products where productid = ? )*(select quantity from allcarts where productid = ?) " +
+" where cartid  = (select cartid from usercartmap where username = ?) and productid = ?";
+           PreparedStatement statement2 =  connection.prepareStatement(query2);
+           statement2.setString(1,productid);
+           statement2.setString(2,productid);
+           statement2.setString(3,username);
+           statement2.setString(4,productid);
+
+            statement2.executeUpdate();
+       }
+           return false;
+        
     }
 
     

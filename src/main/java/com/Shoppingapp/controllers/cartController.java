@@ -50,16 +50,21 @@ public class cartController extends HttpServlet {
         String quantity = request.getParameter("quantity");
         String productid = request.getParameter("productid");
         String cartid=request.getParameter("cartid");
-
+        if (user!=null) {
+            if ("add".equals(action)) {
+            service.addQuantity(user.getUsername(),productid,quantity);
+        }
+        if ("remove".equals(action)) {
+            service.removeQuantity(user.getUsername(),productid,quantity);
+        } 
+        }
+        
+        
         if (quantity!=null && cartid!=null) {
         int cart = Integer.parseInt(cartid);
      
-        if ("+".equals(action)) {
-            service.addQuantity(cart,productid,quantity);
-        }
-        if ("-".equals(action)) {
-            service.removeQuantity(cart,productid,quantity);
-        }
+        
+        
         }
           if (user!=null) {
             ArrayList<UserCartItems> cartitems = service.fetchCartItems(user.getUsername());

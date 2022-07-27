@@ -294,7 +294,15 @@ justify-content: center;
 .quantityadjust input[type="number"]{
     background: white;
 }
-.quantityadjust input[type="submit"]:hover{
+.quantityadjust button{
+    padding: 10px 15px;
+    margin: 0 10px;
+    cursor: pointer;
+    background-color: #a5c926;
+    border: none;
+    color: white;  
+}
+.quantityadjust button:hover{
     background: #1ea9fe;
     transition:.3s all;
 }

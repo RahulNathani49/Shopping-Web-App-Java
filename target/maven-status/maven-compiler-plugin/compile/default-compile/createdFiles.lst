@@ -3,6 +3,7 @@ com\Shoppingapp\repositories\ProductRepository.class
 com\Shoppingapp\controllers\logout.class
 com\Shoppingapp\service\ProductService.class
 com\Shoppingapp\exceptions\Userexception.class
+com\Shoppingapp\models\UserCartItems.class
 com\Shoppingapp\controllers\cartController.class
 com\Shoppingapp\models\Category.class
 com\Shoppingapp\controllers\LoadMainServlet.class

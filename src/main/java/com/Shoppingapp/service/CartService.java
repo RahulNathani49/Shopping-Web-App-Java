@@ -55,15 +55,11 @@ public class CartService {
         return null;
     }
 
-    public void addQuantity(int cartid, String productid, String quantity) throws ClassNotFoundException, SQLException, Userexception{
-        if (repository.productExistInCart(cartid, productid)) {
-            repository.addQuantity(cartid, productid, quantity);
-        }
+    public void addQuantity(String username, String productid, String quantity) throws ClassNotFoundException, SQLException, Userexception{
+        repository.addQuantity(username, productid, quantity);
     }
 
-    public void removeQuantity(int cartid, String productid, String quantity) throws ClassNotFoundException, SQLException {
-       if (repository.productExistInCart(cartid, productid)) {
-            repository.removeQuantity(cartid, productid, quantity);
-        }
+    public void removeQuantity(String username, String productid, String quantity) throws ClassNotFoundException, SQLException {
+        repository.removeQuantity(username, productid, quantity);
     }
 }
